@@ -7,7 +7,7 @@ operators = {
     '-':    'OP_SUBTRACT',
     '*':    'OP_MULTIPLY',
     '/':    'OP_DIVIDE',
-    ';':    'OP_EXECUTE',
+    ';':    'OP_ENDSTATE',
     '(':    'OP_LPAREN',
     ')':    'OP_RPAREN',
     '[':    'OP_LBRACKET',
@@ -24,10 +24,10 @@ operators = {
 }
 
 double_operators = {
-    '==':   'OP_EQUALS',
-    '>=':   'OP_GE',
-    '<=':   'OP_LE',
-    '!=':   'OP_NOTEQUAL'
+    '==':   'OP_EQUAL',
+    '>=':   'OP_GEQ',
+    '<=':   'OP_LEQ',
+    '!=':   'OP_NEQUAL'
 }
 
 keywords = {

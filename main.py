@@ -2,7 +2,7 @@
 if __name__ != '__main__':
     raise Exception('main.py cannot be imported')
 
-import symbol_table as st
+import lexer as lex
 
 code = '''
 int a = 14;
@@ -14,13 +14,13 @@ if (name != 'clownface') {
 }
 '''
 
-parsed_code = st.parse_code(code)
-symbol_table = st.start_symbol_table(parsed_code)
-symbol_table = st.collapse_operators(symbol_table)
-st.print_symbol_table(symbol_table)
+parsed_code = lex.parse_code(code)
+lexeme_list = lex.start_lexeme_list(parsed_code)
+lexeme_list = lex.collapse_operators(lexeme_list)
+lex.print(lexeme_list)
 
 
 # TODO
-# symbol_table = st.detect_literals(symbol_table)
-# symbol_table = st.check_keywords(symbol_table)
+# lexeme_list = lex.detect_literals(lexeme_list)
+# lexeme_list = lex.check_keywords(lexeme_list)
 
