@@ -1,4 +1,5 @@
 import config
+import definitions as defs
 
 def is_char(symbol):
     assert len(symbol) == 1
@@ -16,6 +17,19 @@ def is_digit(symbol):
     if ascii in digits:
         return True
     return False
+
+def is_string(word):
+    if word[0] in defs.quotes:
+        if word[-1] in defs.quotes:
+            return True
+    return False
+
+def clean_lexemes(lexemes):
+    new_lexemes = []
+    for lexeme in lexemes:
+        if lexeme.type != None:
+            new_lexemes.append(lexeme)
+    return new_lexemes
 
 if config.test_code:
     assert is_char('@') == False

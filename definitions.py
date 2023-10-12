@@ -16,8 +16,6 @@ operators = {
     '}':    'OP_RBRACE',
     '.':    'OP_DOT',
     ',':    'OP_COMMA',
-    "'":    'OP_SINGLEQUOTE',
-    '"':    'OP_DOUBLEQUOTE',
     '>':    'OP_GREATER',
     '<':    'OP_LESS',
     '!':    'OP_NOT'
@@ -33,7 +31,14 @@ double_operators = {
 keywords = {
     'int': 'TYPE_INT',
     'float': 'TYPE_FLOAT',
+    'string': 'TYPE_STRING'
 }
 
+quotes = {
+    "'":    'OP_SINGLEQUOTE',
+    '"':    'OP_DOUBLEQUOTE'
+}
 
+for key, value in quotes.items():
+    operators[key] = value
 separators += operators.keys()
