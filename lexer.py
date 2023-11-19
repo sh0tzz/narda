@@ -37,14 +37,14 @@ class Lexeme:
         self.value = value
         self.type = type
     def __str__(self):
-        return f'{self.type}\t {self.value}'
+        return f'[{self.type}, {self.value}]'
 
 def start_lexeme_list(parsed_code):
     lexeme_list = []
     for symbol in parsed_code:
         if symbol.startswith('_') or helpers.is_char(symbol[0]):
             lexeme_list.append(Lexeme(symbol, 'TEXT'))
-        elif helpers.is_digit(symbol[0]):
+        elif helpers.is_number(symbol):
             lexeme_list.append(Lexeme(symbol, 'NUMBER'))
         elif symbol in defs.separators:
             lexeme_list.append(Lexeme(symbol, 'SEP'))
@@ -89,14 +89,16 @@ def detect_literals(lexeme_list):
                     in_float = False
                     continue
         if in_float:
+            new_lexeme = ''
+            new_lexeme += lexeme_list[i-2].value 
+            new_lexeme += lexeme_list[i-1].value
+            new_lexeme += lexeme_list[i].value
             if lexeme.type == 'NUMBER':
-                new_lexeme = ''
-                new_lexeme += lexeme_list[i-2].value 
-                new_lexeme += lexeme_list[i-1].value
-                new_lexeme += lexeme_list[i].value
                 lexeme_list[i-2] = Lexeme(new_lexeme, 'FLOAT')
                 lexeme_list[i-1] = Lexeme(None, None)
                 lexeme_list[i] = Lexeme(None, None)
+            else:
+                raise Exception(f'SYMBOL "{new_lexeme}" COULD NOT BE INTERPRETED')
             in_number = False
             in_float = False
     return helpers.clean_lexemes(lexeme_list)
@@ -104,8 +106,31 @@ def detect_literals(lexeme_list):
 def detect_keywords(lexeme_list):
     for lexeme in lexeme_list:
         if lexeme.value in defs.keywords:
-            lexeme.type = 'KEYWORD'
+            lexeme.type = defs.keywords[lexeme.value]
     return lexeme_list
+
+def assign_token_values(lexeme_list):
+    for lexeme in lexeme_list:
+        if lexeme.type == 'SEP':
+            if len(lexeme.value) > 1:
+                lexeme.type = defs.double_operators[lexeme.value]
+            else:
+                lexeme.type = defs.operators[lexeme.value]
+        elif lexeme.type == 'TEXT':
+            lexeme.type = 'IDENTIFIER'
+    return lexeme_list
+
+def get_token_list(lexeme_list):
+    tokens = []
+    for lexeme in lexeme_list:
+        if lexeme.type in defs.types:
+            lexeme.type = 'VALUE'
+        tokens.append(lexeme.type)
+    return tokens
+    
+def final_check(tokens):
+    for token in tokens:
+        assert token in defs.all_tokens
 
 def printlex(lexeme_list):
     for item in lexeme_list:

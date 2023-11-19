@@ -2,7 +2,7 @@
 separators = [' ', '\n']
 
 operators = {
-    '=':    'OP_SET_VALUE',
+    '=':    'OP_SET',
     '+':    'OP_ADD',
     '-':    'OP_SUBTRACT',
     '*':    'OP_MULTIPLY',
@@ -29,15 +29,21 @@ double_operators = {
 }
 
 keywords = {
-    'int': 'TYPE_INT',
-    'float': 'TYPE_FLOAT',
-    'string': 'TYPE_STRING'
+    'let':  'NEW_VAR'
 }
 
 quotes = {
     "'":    'OP_SINGLEQUOTE',
     '"':    'OP_DOUBLEQUOTE'
 }
+
+types = ['INT', 'FLOAT', 'BOOL', 'STRING']
+
+all_tokens = ['VALUE', 'IDENTIFIER']
+all_tokens += operators.values()
+all_tokens += double_operators.values()
+all_tokens += keywords.values()
+all_tokens += quotes.values()
 
 for key, value in quotes.items():
     operators[key] = value

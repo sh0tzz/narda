@@ -18,6 +18,12 @@ def is_digit(symbol):
         return True
     return False
 
+def is_number(symbol):
+    for char in symbol:
+        if not is_digit(char):
+            return False
+    return True
+
 def is_string(word):
     if word[0] in defs.quotes:
         if word[-1] in defs.quotes:
