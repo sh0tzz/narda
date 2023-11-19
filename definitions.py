@@ -49,6 +49,11 @@ bool_literals = {
     "false": "BOOL_FALSE"
 }
 
+priorities = [
+    ['OP_MULTIPLY', 'OP_DIVIDE'],
+    ['OP_ADD', 'OP_SUBTRACT']
+]
+
 all_tokens = ['IDENTIFIER']
 all_tokens += types
 all_tokens += operators.values()

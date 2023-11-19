@@ -9,7 +9,7 @@ code = '''
 let a = 14 / 7;
 let b = 3.14 * 2;
 let c = 'lolcina';
-let d = 1 + 2 - 3 / 4;
+let d = 1 - 2 + 3 / 4;
 c = 5;
 word.strip();
 let x = 1.0;
@@ -28,7 +28,13 @@ lex.final_check(lexeme_list)
 # lex.printlex(lexeme_list)
 
 mt, lt, it, et = syn.create_tables(lexeme_list)
+# TODO zagrade i druge operacije
+mt, lt, it, et = syn.collapse_expressions(mt, lt, it, et)
 print(mt.full(lt, it, et))
-# TODO
-# mt, lt, it, et = syn.collapse_expressions(mt, lt, it, et)
+print()
+print(lt)
+print()
+print(et)
+print()
+print(it)
 

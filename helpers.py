@@ -19,7 +19,7 @@ def is_digit(symbol):
     return False
 
 def is_number(symbol):
-    for char in symbol:
+    for char in str(symbol):
         if not is_digit(char):
             return False
     return True
@@ -53,9 +53,16 @@ if config.test_code:
     assert is_digit('9') == True
     assert is_digit(':') == False
 
-def key_without_prefix(key):
+def key_without_prefix(key, deleted):
+    if key == None:
+        return None
     new_key = ''
     for i in range(1, len(key)):
         new_key += key[i]
-    return int(new_key)
+    return int(new_key) - deleted
 
+def is_id(id, keys=['L', 'I', 'E']):
+    if is_number(id[1:]):
+        if id[0] in keys:
+            return True
+    return False
