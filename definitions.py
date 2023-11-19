@@ -1,3 +1,4 @@
+# ABSTRACTIONS MUST NOT START WITH 'L', 'I' OR 'E'
 
 separators = [' ', '\n']
 
@@ -29,7 +30,12 @@ double_operators = {
 }
 
 keywords = {
-    'let':  'NEW_VAR'
+    'let':      'NEW_VAR',
+    'if':       'STATE_IF',
+    'else if':  'STATE_ELSEIF',
+    'else':     'STATE_ELSE',
+    'for':      'STATE_FOR',
+    'while':    'STATE_WHILE'
 }
 
 quotes = {
@@ -38,8 +44,13 @@ quotes = {
 }
 
 types = ['INT', 'FLOAT', 'BOOL', 'STRING']
+bool_literals = {
+    "true": "BOOL_TRUE",
+    "false": "BOOL_FALSE"
+}
 
-all_tokens = ['VALUE', 'IDENTIFIER']
+all_tokens = ['IDENTIFIER']
+all_tokens += types
 all_tokens += operators.values()
 all_tokens += double_operators.values()
 all_tokens += keywords.values()

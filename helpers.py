@@ -53,3 +53,9 @@ if config.test_code:
     assert is_digit('9') == True
     assert is_digit(':') == False
 
+def key_without_prefix(key):
+    new_key = ''
+    for i in range(1, len(key)):
+        new_key += key[i]
+    return int(new_key)
+

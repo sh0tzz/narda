@@ -9,7 +9,6 @@ def parse_code(code):
     parsed_code = []
     in_string = False
     quote_type = None
-    # "lele! mama"
     for i in range(len(code)):
         char = code[i]
         added = False
@@ -73,6 +72,9 @@ def detect_literals(lexeme_list):
     in_number = False
     in_float = False
     for i in range(len(lexeme_list)):
+        if lexeme_list[i].value in defs.bool_literals.keys():
+            lexeme_list[i].type = 'BOOL'
+    for i in range(len(lexeme_list)):
         lexeme = lexeme_list[i]
         if not in_number:
             if lexeme.type == 'NUMBER':
@@ -107,9 +109,13 @@ def detect_keywords(lexeme_list):
     for lexeme in lexeme_list:
         if lexeme.value in defs.keywords:
             lexeme.type = defs.keywords[lexeme.value]
-    return lexeme_list
+    for i in range(len(lexeme_list)):
+        if lexeme_list[i].type == 'ELSE' and lexeme_list[i+1].type == 'IF':
+            lexeme_list[i] = Lexeme('else if', 'ELSEIF')
+            lexeme_list[i+1] = Lexeme(None, None)
+    return helpers.clean_lexemes(lexeme_list)
 
-def assign_token_values(lexeme_list):
+def assign_token_abstractions(lexeme_list):
     for lexeme in lexeme_list:
         if lexeme.type == 'SEP':
             if len(lexeme.value) > 1:
@@ -119,19 +125,19 @@ def assign_token_values(lexeme_list):
         elif lexeme.type == 'TEXT':
             lexeme.type = 'IDENTIFIER'
     return lexeme_list
-
-def get_token_list(lexeme_list):
-    tokens = []
-    for lexeme in lexeme_list:
-        if lexeme.type in defs.types:
-            lexeme.type = 'VALUE'
-        tokens.append(lexeme.type)
-    return tokens
     
 def final_check(tokens):
     for token in tokens:
-        assert token in defs.all_tokens
+        assert token.type in defs.all_tokens
 
-def printlex(lexeme_list):
-    for item in lexeme_list:
-        print(item)
+def printlex(lexeme_list, spacing=3):
+    max_length = 0
+    number_length = len(str(len(lexeme_list)))
+    for lexeme in lexeme_list:
+        if len(lexeme.type) > max_length:
+            max_length = len(lexeme.type)
+    for i in range(len(lexeme_list)):
+        lexeme = lexeme_list[i]
+        print(f'{i}{" "*(number_length-len(str(i))+spacing)}', end='')
+        print(f'{lexeme.type}{" "*(max_length-len(lexeme.type)+spacing)}', end='')
+        print(lexeme.value)

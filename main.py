@@ -15,7 +15,7 @@ word.strip();
 let x = 1.0;
 if (name != 'clownface') {
     output("lele! m'ama");
-}
+} else if (name == false != true)
 '''
 
 parsed_code = lex.parse_code(code)
@@ -23,9 +23,12 @@ lexeme_list = lex.start_lexeme_list(parsed_code)
 lexeme_list = lex.collapse_operators(lexeme_list)
 lexeme_list = lex.detect_literals(lexeme_list)
 lexeme_list = lex.detect_keywords(lexeme_list)
-lexeme_list = lex.assign_token_values(lexeme_list)
-tokens = lex.get_token_list(lexeme_list)
-lex.final_check(tokens)
+lexeme_list = lex.assign_token_abstractions(lexeme_list)
+lex.final_check(lexeme_list)
 # lex.printlex(lexeme_list)
-print(tokens)
-syn.priority_tree(tokens)
+
+mt, lt, it, et = syn.create_tables(lexeme_list)
+print(mt.full(lt, it, et))
+# TODO
+# mt, lt, it, et = syn.collapse_expressions(mt, lt, it, et)
+
