@@ -38,8 +38,12 @@ class NavBar(tk.Frame):
 class SourceTab(tk.Frame):
     def __init__(self):
         super().__init__()
-        code_box = tkScrolledText.ScrolledText(self)
-        code_box.grid(row=0, column=0, rowspan=2)
+        code_box = tkScrolledText.ScrolledText(
+            self,
+            font=('Courier New', 20, 'bold'),
+            width=50
+        )
+        code_box.pack(fill=tk.Y, expand=True)
 
 class LexerTab(tk.Frame):
     def __init__(self):
