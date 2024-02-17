@@ -1,0 +1,10 @@
+#!/bin/bash
+
+FILENAME="test"
+
+python3 main.py $FILENAME.narda
+nasm -F dwarf -f elf64 -o $FILENAME.o $FILENAME.asm
+ld -o $FILENAME $FILENAME.o
+
+gdb ./$FILENAME
+rm $FILENAME.asm $FILENAME.o $FILENAME

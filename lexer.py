@@ -130,7 +130,7 @@ def final_check(tokens):
     for token in tokens:
         assert token.type in defs.all_tokens
 
-def printlex(lexeme_list, spacing=3):
+def printlex(lexeme_list, spacing=3, end='\n'):
     max_length = 0
     number_length = len(str(len(lexeme_list)))
     for lexeme in lexeme_list:
@@ -141,3 +141,4 @@ def printlex(lexeme_list, spacing=3):
         print(f'{i}{" "*(number_length-len(str(i))+spacing)}', end='')
         print(f'{lexeme.type}{" "*(max_length-len(lexeme.type)+spacing)}', end='')
         print(lexeme.value)
+    print(end, end='')

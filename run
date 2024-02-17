@@ -1,0 +1,14 @@
+#!/bin/bash
+
+FILENAME="test"
+
+python3 main.py $FILENAME.narda
+nasm -f elf64 -o $FILENAME.o $FILENAME.asm
+ld -o $FILENAME $FILENAME.o
+
+echo "---------------------------"
+cat $FILENAME.asm
+echo "---------------------------"
+./$FILENAME
+echo "Exit code: $?"
+rm $FILENAME.asm $FILENAME.o $FILENAME

@@ -1,5 +1,6 @@
 import lexer as lex
 import syntax as syn
+import transpiler as tpl
 
 def compile_code(code, debug=False):
     parsed_code = lex.parse_code(code)
@@ -13,12 +14,10 @@ def compile_code(code, debug=False):
     # TODO zagrade i druge operacije
     mt, lt, it, et = syn.collapse_expressions(mt, lt, it, et)
     if debug:
-        lex.printlex(lexeme_list)
-        print(mt.full(lt, it, et))
-        print()
-        print(lt)
-        print()
-        print(et)
-        print()
-        print(it)
-    return lexeme_list, (mt, lt, it, et)
+        # lex.printlex(lexeme_list, end='\n')
+        print(mt.full(lt, it, et), end='\n')
+        print(lt, end='\n')
+        print(et, end='\n')
+        print(it, end='\n')
+    asm = tpl.generate_asm(mt, lt, it, et)
+    return asm
