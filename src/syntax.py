@@ -114,3 +114,19 @@ def collapse_expressions(main_table, literals, identifiers, expressions):
                 main_table.remove(f'M{i}')
                 main_table.remove(f'M{i+1}')
     return main_table, literals, identifiers, expressions
+
+def detect_fcalls(main_table, literals, identifiers, expressions):
+    call_start = None
+    for i in range(main_table.count):
+        token = main_table.get(f'M{i}', 'token')
+        if token[0] == 'I':
+            next = main_table.get(f'M{i+1}', 'token')
+            if next == 'OP_LPAREN':
+                call_start = i
+                continue
+        if call_start != None:
+            if token == 'OP_RPAREN':
+                print(call_start, i)
+                for i in range(call_start, i+1):
+                    print(main_table.get(f'M{i}', 'token'))
+                call_start = None

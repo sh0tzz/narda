@@ -19,5 +19,6 @@ def compile_code(code, debug=False):
         print(lt, end='\n')
         print(et, end='\n')
         print(it, end='\n')
+    syn.detect_fcalls(mt, lt, it, et)
     asm = tpl.generate_asm(mt, lt, it, et)
     return asm

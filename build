@@ -1,9 +1,7 @@
 #!/bin/bash
 
-FILENAME="test"
-
-python3 main.py $FILENAME.narda
-nasm -f elf64 -o $FILENAME.o $FILENAME.asm
-ld -o $FILENAME $FILENAME.o
-
-rm $FILENAME.asm $FILENAME.o
+source build.cfg
+mkdir $BUILD
+python3 src/main.py $FILENAME.narda -o $BUILD/$FILENAME.asm
+nasm -F dwarf -f elf64 $BUILD/$FILENAME.asm -o $BUILD/$FILENAME.o
+ld -o $BUILD/$FILENAME $BUILD/$FILENAME.o

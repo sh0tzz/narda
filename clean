@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source build.cfg
+rm -rf $BUILD
