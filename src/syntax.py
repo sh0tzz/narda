@@ -39,6 +39,10 @@ class LookupTable:
         field = self.fields.index(field)
         return self.values[key][field+1]
     
+    def clear_cache(self):
+        self.count -= self.deleted
+        self.deleted = 0
+
     def get_last_id(self):
         if self.last_id == '':
             return f'{self.prefix}{self.count-1}'
@@ -99,24 +103,51 @@ def create_tables(lexeme_list):
     return main_table, literals, identifiers, expressions
 
 def collapse_expressions(main_table, literals, identifiers, expressions):
-    for level in defs.priorities:
-        for i in range(main_table.count):
-            token = main_table.get(f'M{i}', 'token')
-            if token in level:
-                prev = main_table.get(f'M{i-1}', 'token')
-                next = main_table.get(f'M{i+1}', 'token')
-                if not helpers.is_id(prev):
-                    continue
-                if not helpers.is_id(next):
-                    continue
-                expressions.add(token, prev, next)
-                main_table.replace(f'M{i-1}', expressions.get_last_id())
-                main_table.remove(f'M{i}')
-                main_table.remove(f'M{i+1}')
+    # # print("---------------")
+    # expr_start = None
+    # for i in range(main_table.count):
+    #     token = main_table.get(f'M{i}', 'token')
+    #     # print(token)
+    #     if token == 'OP_LPAREN':
+    #         expr_start = i
+    #         continue
+    #     if expr_start != None:
+    #         if token == 'OP_RPAREN':
+    #             removed = 0
+    #             for level in defs.priorities:
+    #                 for j in range(expr_start+1, i-removed):
+    #                     try:
+    #                         token = main_table.get(f'M{j}', 'token')
+    #                     except IndexError:
+    #                         print(main_table.values)
+    #                         print(f'M{j}')
+    #                         raise IndexError()
+    #                     if token in level:
+    #                         prev = main_table.get(f'M{j-1}', 'token')
+    #                         next = main_table.get(f'M{j+1}', 'token')
+    #                         if not helpers.is_id(prev):
+    #                             continue
+    #                         if not helpers.is_id(next):
+    #                             continue
+    #                         expressions.add(token, prev, next)
+    #                         main_table.replace(f'M{j-1}', expressions.get_last_id())
+    #                         main_table.remove(f'M{j}')
+    #                         main_table.remove(f'M{j+1}')
+    #                         removed += 2
+    #             if main_table.get(f'M{expr_start-1}', 'token')[0] != 'L':
+    #                 main_table.remove(f'M{expr_start}')
+    #                 main_table.remove(f'M{i-removed}')
+
+    # print("---------------")
+    print("[ TODO ]: COLLAPSE EXPRESSIONS")
     return main_table, literals, identifiers, expressions
+
 
 def detect_fcalls(main_table, literals, identifiers, expressions):
     call_start = None
+    call_id = 0
+    calls = []
+    params = []
     for i in range(main_table.count):
         token = main_table.get(f'M{i}', 'token')
         if token[0] == 'I':
@@ -126,7 +157,14 @@ def detect_fcalls(main_table, literals, identifiers, expressions):
                 continue
         if call_start != None:
             if token == 'OP_RPAREN':
-                print(call_start, i)
-                for i in range(call_start, i+1):
-                    print(main_table.get(f'M{i}', 'token'))
+                calls.append((str(call_id), main_table.get(f'M{call_start}', 'token')))
+                for j in range(i-1, call_start+1, -1):
+                    param = main_table.get(f'M{j}', 'token')
+                    if param != 'OP_COMMA':
+                        params.append((str(call_id), param))
+                main_table.replace(f'M{call_start}', f'F{call_id}')
+                for j in range(call_start, i+1):
+                    main_table.remove(f'M{j+1}')
                 call_start = None
+                call_id += 1
+    return main_table, calls, params

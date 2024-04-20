@@ -1,0 +1,20 @@
+Main	[ID, token]
+	0 - ID
+	1 - token
+
+Literals	[ID, type, value]
+	0 - ID
+	1 - type
+	2 - value
+
+Identifiers	[ID, name]
+	0 - ID
+	1 - name
+
+Expressions	[ID, operation, operand1, operand2]
+	0 - ID
+	1 - operation
+	2 - operand1
+	3 - operand2
+
+

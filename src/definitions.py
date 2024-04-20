@@ -8,6 +8,7 @@ operators = {
     '-':    'OP_SUBTRACT',
     '*':    'OP_MULTIPLY',
     '/':    'OP_DIVIDE',
+    '%':    'OP_MODULO',
     ';':    'OP_ENDSTATE',
     '(':    'OP_LPAREN',
     ')':    'OP_RPAREN',
@@ -18,7 +19,10 @@ operators = {
     '.':    'OP_DOT',
     ',':    'OP_COMMA',
     '>':    'OP_GREATER',
-    '<':    'OP_LESS',
+    '<':    'OP_LESS'
+}
+
+unary_operators = {
     '!':    'OP_NOT'
 }
 
@@ -26,7 +30,9 @@ double_operators = {
     '==':   'OP_EQUAL',
     '>=':   'OP_GEQ',
     '<=':   'OP_LEQ',
-    '!=':   'OP_NEQUAL'
+    '!=':   'OP_NEQUAL',
+    '&&':   'OP_AND',
+    '||':   'OP_OR'
 }
 
 keywords = {
@@ -50,8 +56,12 @@ bool_literals = {
 }
 
 priorities = [
-    ['OP_MULTIPLY', 'OP_DIVIDE'],
-    ['OP_ADD', 'OP_SUBTRACT']
+    ['OP_NOT'],
+    ['OP_MULTIPLY', 'OP_DIVIDE', 'OP_MODULO'],
+    ['OP_ADD', 'OP_SUBTRACT'],
+    ['OP_LESS', 'OP_GREATER', 'OP_LEQ', 'OP_GEQ', 'OP_EQUAL', 'OP_NEQUAL'],
+    ['OP_AND', 'OP_OR'],
+    ['OP_COMMA']
 ]
 
 all_tokens = ['IDENTIFIER']
