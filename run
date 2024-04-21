@@ -5,4 +5,4 @@ source build.cfg
 echo "---------------------------"
 ./$BUILD/$FILENAME
 echo "Exit code: $?"
-# ./clean
+./clean
