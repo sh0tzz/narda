@@ -1,5 +1,12 @@
-print("Kolko mas leti: ");
-input();
-print("a ziher imas ");
+print("Kak se zoves: ");
+let ime 32;
+input(ime);
+print("Koliko imas godina: ");
+let godine 32;
+input(godine);
+print("Bok ");
+print(ime);
+print("Imas ");
+print(godine);
 
 

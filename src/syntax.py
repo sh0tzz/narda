@@ -74,8 +74,9 @@ class LookupTable:
                     output += expressions.get(id, 'operand1') + " "
                     output += expressions.get(id, 'operation') + " "
                     output += expressions.get(id, 'operand2') + '\n'
-                else:
-                    raise Exception()
+                # TODO vrati ovo jebote
+                # else:
+                #     raise Exception()
         return output       
 
     def __str__(self):
@@ -168,3 +169,18 @@ def detect_fcalls(main_table, literals, identifiers, expressions):
                 call_start = None
                 call_id += 1
     return main_table, calls, params
+
+
+def detect_variables(main_table, literals, identifiers):
+    print('[ DETECT VARIABLES ]')
+    main_table.clear_cache()
+    variables = []
+    for i in range(main_table.count):
+        token = main_table.get(f'M{i}', 'token')
+        if token == 'NEW_VAR':
+            identifier = main_table.get(f'M{i+1}', 'token')
+            literal = main_table.get(f'M{i+2}', 'token')
+            varname = identifiers.get(identifier, 'name')
+            size = literals.get(literal, 'value')
+            variables.append((varname, size))
+    return variables

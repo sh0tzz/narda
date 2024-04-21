@@ -49,7 +49,7 @@ quotes = {
     '"':    'OP_DOUBLEQUOTE'
 }
 
-types = ['INT', 'FLOAT', 'BOOL', 'STRING']
+types = ['INT', 'FLOAT', 'NUMBER', 'BOOL', 'STRING']
 bool_literals = {
     "true": "BOOL_TRUE",
     "false": "BOOL_FALSE"

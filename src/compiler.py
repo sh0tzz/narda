@@ -27,7 +27,10 @@ def compile_code(code, debug=False):
         print(f'{key}\t{value}')
     
     mt, calls, params = syn.detect_fcalls(mt, lt, it, et)
-    asm = tpl.generate_asm(mt, lt, it, et, calls, params)
+    variables = syn.detect_variables(mt, lt, it)
+
+    asm = tpl.generate_asm(mt, lt, it, et, calls, params, variables)
+
     for i in calls:
         print(i)
     print()
