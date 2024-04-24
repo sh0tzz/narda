@@ -1,12 +1,18 @@
-print("Kak se zoves: ");
 let ime 32;
+let prezime 32;
+
+print("Ime: ");
 input(ime);
-print("Koliko imas godina: ");
-let godine 32;
-input(godine);
-print("Bok ");
+print("Prezime: ");
+input(prezime);
+
 print(ime);
-print("Imas ");
-print(godine);
+print(prezime);
+
+ime = prezime;
+
+print(ime);
+print(prezime);
+
 
 

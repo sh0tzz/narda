@@ -72,6 +72,27 @@ def add_function_calls(code, mt, it, lt, calls, params, vars):
                 to_add += f"mov rsi, {varname}\n"
                 to_add += f"mov rdx, {size}\n"
                 to_add += "syscall\n"
+        elif instr == "OP_SET":
+            var_id = mt.get(f'M{i-1}', 'token')
+            val_id = mt.get(f'M{i+1}', 'token')
+            varname = it.get(var_id, 'name')
+            if val_id[0] == 'L':
+                for name, size in vars:
+                    if name == varname:
+                        copysize = size
+                to_add += f"mov rdi, {varname}\n"
+                to_add += f"mov rsi, {val_id}\n"
+                to_add += f"mov rcx, {copysize}\n"
+                to_add += "call _memcpy\n"
+            elif val_id[0] == 'I':
+                sourcevar = it.get(val_id, 'name')
+                for name, size in vars:
+                    if name == varname:
+                        copysize = size
+                to_add += f"mov rdi, {varname}\n"
+                to_add += f"mov rsi, {sourcevar}\n"
+                to_add += f"mov rcx, {copysize}\n"
+                to_add += "call _memcpy\n"
     return code.replace('#MAIN#', to_add)
 
 def add_variables(code, vars):
@@ -85,7 +106,7 @@ def generate_asm(mt, lt, it, et, calls, params, vars):
     code = load_template(config)
     code = include_libraries(code, config)
     code = include_literals(code, lt)
-    code = add_function_calls(code, mt, it, lt, calls, params, vars)
     code = add_variables(code, vars)
+    code = add_function_calls(code, mt, it, lt, calls, params, vars)
     return code
 
