@@ -1,18 +1,19 @@
-let ime 32;
-let prezime 32;
+let a 32;
+let b 32;
 
-print("Ime: ");
-input(ime);
-print("Prezime: ");
-input(prezime);
+print("Unesi prvi broj: ");
+input(a);
 
-print(ime);
-print(prezime);
+print("Unesi drugi broj: ");
+input(b);
 
-ime = prezime;
+int(a);
+int(b);
 
-print(ime);
-print(prezime);
+printline(a);
+printline(b);
 
+str(a);
 
-
+printline(a);
+printline(b);

@@ -7,12 +7,15 @@ section .data
 
 
 section .bss
-    INPUT_BUFFER resb 64
+    TEMP resb 64
     #VARIABLES#
 
 section .text
 _start:
     #MAIN#
+
+    mov rsi, TEMP
+    call _puts
 
     mov rax, 60
     mov rdi, 0

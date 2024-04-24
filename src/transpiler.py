@@ -54,7 +54,10 @@ def add_function_calls(code, mt, it, lt, calls, params, vars):
                 to_add += f"mov rsi, {value}\n"
                 to_add += "call _puts\n"
             elif func_name == "printline":
-                to_add += f"mov rsi, {parameters[0]}\n"
+                value = parameters[0]
+                if parameters[0].startswith('I'):
+                    value = it.get(parameters[0], 'name')
+                to_add += f"mov rsi, {value}\n"
                 to_add += "call _puts\n"
                 to_add += "call _newl\n"
             elif func_name == "exit":
@@ -72,6 +75,14 @@ def add_function_calls(code, mt, it, lt, calls, params, vars):
                 to_add += f"mov rsi, {varname}\n"
                 to_add += f"mov rdx, {size}\n"
                 to_add += "syscall\n"
+            elif func_name == "int":
+                varname = it.get(parameters[0], 'name')
+                to_add += f"mov rsi, {varname}\n"
+                to_add += f"call _to_int\n"
+            elif func_name == "str":
+                varname = it.get(parameters[0], 'name')
+                to_add += f"mov rdi, [{varname}]\n"
+                to_add += f"call _to_str\n"
         elif instr == "OP_SET":
             var_id = mt.get(f'M{i-1}', 'token')
             val_id = mt.get(f'M{i+1}', 'token')
